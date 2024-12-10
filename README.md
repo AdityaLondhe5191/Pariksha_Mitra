@@ -61,7 +61,7 @@ Before you begin, ensure you have the following installed:
 
    If you're using MongoDB Atlas (cloud), create a new cluster and generate a connection string. Replace the placeholder in the `.env` file.
 
-   - **MongoDB Atlas**: Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) to set up a free cluster and get the connection string.
+   - **MongoDB Atlas**: Go to [MongoDB Atlas] to set up a free cluster and get the connection string.
    - **Local MongoDB**: If you're using a local MongoDB instance, ensure MongoDB is running on `mongodb://localhost:27017`.
 
 4. Environment Variables
@@ -264,7 +264,7 @@ Analytics provides insights into student performance based on their test results
 
 You can test the API endpoints using **Postman** or **cURL**.
 
-- **Postman**: Download and install Postman (https://www.postman.com/downloads/). Use it to send GET, POST, PUT, DELETE requests to the backend API.
+- **Postman**: Download and install Postman. Use it to send GET, POST, PUT, DELETE requests to the backend API.
 - **Swagger**: If you want to use Swagger for API documentation, you can set up a library like `swagger-jsdoc` to automatically generate and visualize the API.
 
 ### Example Using Postman:
