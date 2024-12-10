@@ -36,9 +36,12 @@ app.use(cors());
 //     console.error('MongoDB connection error:', err);
 //     process.exit(1);
 //   });
-mongoose.connect('your-mongodb-connection-url')
-  .then(() => console.log("MongoDB connected successfully"))
-  .catch((err) => console.log("MongoDB connection failed", err));
+const MONGO_URI = process.env.MONGODB_URI;
+
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection failed', err));
+
 
 // Routes
 app.use('/api/students', studentRoutes);
