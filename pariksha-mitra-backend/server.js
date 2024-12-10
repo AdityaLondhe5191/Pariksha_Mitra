@@ -24,18 +24,6 @@ app.use(express.json());
 // Enable CORS for all domains (you can customize it as needed)
 app.use(cors());
 
-// Connect to MongoDB
-// mongoose.connect(process.env.MONGODB_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-//   .then(() => {
-//     console.log('MongoDB connected successfully');
-//   })
-//   .catch(err => {
-//     console.error('MongoDB connection error:', err);
-//     process.exit(1);
-//   });
 mongoose.connect('mongodb+srv://pariksha_user:secure_password123@cluster0.jbavf.mongodb.net/Pariksha_Mitra?retryWrites=true&w=majority')
 .then(() => console.log('MongoDB connected successfully'))
 .catch(err => console.error('MongoDB connection failed', err));
