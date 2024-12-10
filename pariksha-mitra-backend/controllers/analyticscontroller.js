@@ -1,0 +1,25 @@
+const Analytics = require('../models/analytics');
+const TestResult = require('D:\\Adi_VIT_TY\\Pariksha_Mitra\\pariksha-mitra-backend\\models\\testresult.js');
+
+module.exports = {
+  getAnalytics: async (req, res) => {
+    const testResults = await TestResult.find({ student: req.params.studentId });
+    const totalTests = testResults.length;
+    const averageScore = testResults.reduce((sum, result) => sum + result.score, 0) / totalTests;
+    
+    const analytics = await Analytics.findOne({ student: req.params.studentId });
+    if (!analytics) {
+      const newAnalytics = new Analytics({
+        student: req.params.studentId,
+        performanceData: { totalTests, averageScore },
+      });
+      await newAnalytics.save();
+      return res.status(200).send(newAnalytics);
+    }
+    
+    analytics.performanceData.totalTests = totalTests;
+    analytics.performanceData.averageScore = averageScore;
+    await analytics.save();
+    res.status(200).send(analytics);
+  },
+};
