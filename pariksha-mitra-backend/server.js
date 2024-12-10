@@ -36,11 +36,9 @@ app.use(cors());
 //     console.error('MongoDB connection error:', err);
 //     process.exit(1);
 //   });
-const MONGO_URI = process.env.MONGODB_URI;
-
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection failed', err));
+mongoose.connect('mongodb+srv://pariksha_user:secure_password123@cluster0.jbavf.mongodb.net/Pariksha_Mitra?retryWrites=true&w=majority')
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.error('MongoDB connection failed', err));
 
 
 // Routes
