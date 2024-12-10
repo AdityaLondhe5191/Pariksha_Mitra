@@ -1,5 +1,5 @@
 const Analytics = require('../models/analytics');
-const TestResult = require('D:\\Adi_VIT_TY\\Pariksha_Mitra\\pariksha-mitra-backend\\models\\testresult.js');
+const TestResult = require('../models/testresult');  // Adjust the relative path if necessary
 
 module.exports = {
   getAnalytics: async (req, res) => {
