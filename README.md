@@ -284,8 +284,6 @@ You can test the API endpoints using **Postman** or **cURL**.
    - Method: `GET`
    - URL: `https://pariksha-mitra.onrender.com/api/students'
 
-/:studentId`
-
 ## Contributing
 
 Contributions are welcome! Please follow these steps to contribute:
