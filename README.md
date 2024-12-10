@@ -4,6 +4,7 @@ Data Analytics Backend for Pariksha Mitra project
 
 ## Deployed Application Link:
 You can access the deployed application at: [https://pariksha-mitra.onrender.com](https://pariksha-mitra.onrender.com)
+to view other parameters you can go through this links: https://pariksha-mitra.onrender.com/api/students , https://pariksha-mitra.onrender.com/api/chapters , https://pariksha-mitra.onrender.com/api/exercises , https://pariksha-mitra.onrender.com/api/questions
 
 Here's an expanded version of the README file with setup instructions for project:
 
