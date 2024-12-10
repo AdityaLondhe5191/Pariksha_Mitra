@@ -39,7 +39,7 @@ app.use('/api/analytics', analyticsRoutes);
 
 // Root route for basic check
 app.get('/', (req, res) => {
-  res.send('Welcome to Pariksha Mitra API');
+  res.send('Welcome to Pariksha Mitra APP');
 });
 
 // Middleware to handle unauthorized access (in case of restricted routes)
