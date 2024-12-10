@@ -185,7 +185,7 @@ Students are individuals who take tests, complete exercises, and track their per
     {
       "name": "John Doe",
       "email": "johndoe@example.com",
-      "password": "password123"
+      "phone": "1023456789"
     }
     ```
   - Returns: Created student object.
@@ -276,7 +276,7 @@ You can test the API endpoints using **Postman** or **cURL**.
      {
        "name": "John Doe",
        "email": "johndoe@example.com",
-       "password": "password123"
+       "phone": "1023456789"
      }
      ```
 
@@ -339,7 +339,7 @@ const mongoose = require('mongoose');
 const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  age: { type: Number, required: true },
+  phone: { type: Number, required: true },
   courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
   testResults: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TestResult' }],
   createdAt: { type: Date, default: Date.now },
