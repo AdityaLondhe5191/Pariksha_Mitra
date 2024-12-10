@@ -24,18 +24,10 @@ app.use(express.json());
 // Enable CORS for all domains (you can customize it as needed)
 app.use(cors());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => {
-    console.log('MongoDB connected successfully');
-  })
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1);
-  });
+mongoose.connect('mongodb+srv://pariksha_user:secure_password123@cluster0.jbavf.mongodb.net/Pariksha_Mitra?retryWrites=true&w=majority')
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.error('MongoDB connection failed', err));
+
 
 // Routes
 app.use('/api/students', studentRoutes);
@@ -47,7 +39,7 @@ app.use('/api/analytics', analyticsRoutes);
 
 // Root route for basic check
 app.get('/', (req, res) => {
-  res.send('Welcome to Pariksha Mitra API');
+  res.send('Welcome to Pariksha Mitra APP');
 });
 
 // Middleware to handle unauthorized access (in case of restricted routes)
