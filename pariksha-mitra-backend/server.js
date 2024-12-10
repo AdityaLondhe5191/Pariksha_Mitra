@@ -25,17 +25,20 @@ app.use(express.json());
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => {
-    console.log('MongoDB connected successfully');
-  })
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1);
-  });
+// mongoose.connect(process.env.MONGODB_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+//   .then(() => {
+//     console.log('MongoDB connected successfully');
+//   })
+//   .catch(err => {
+//     console.error('MongoDB connection error:', err);
+//     process.exit(1);
+//   });
+mongoose.connect('your-mongodb-connection-url')
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((err) => console.log("MongoDB connection failed", err));
 
 // Routes
 app.use('/api/students', studentRoutes);
