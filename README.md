@@ -1,6 +1,5 @@
-# Pariksha_Mitra
-Data Analytics Backend for Pariksha Mitra project
 # Pariksha Mitra
+Data Analytics Backend for Pariksha Mitra project
 
 ## Deployed Application Link:
 You can access the deployed application at: [https://pariksha-mitra.onrender.com](https://pariksha-mitra.onrender.com)
