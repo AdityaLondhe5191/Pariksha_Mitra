@@ -295,4 +295,278 @@ Contributions are welcome! Please follow these steps to contribute:
 5. Push your changes and create a pull request.
 
 
+### 1. **Data Architecture Document:**
+
+#### Introduction:
+The data architecture document describes the structure and flow of data within the Pariksha Mitra system. It outlines how data will be stored, accessed, and processed, ensuring consistency, integrity, and scalability.
+
+#### System Overview:
+- **Pariksha Mitra** is an educational platform where students take tests, and performance analytics are generated.
+- **Core Components:**
+  - **Student Profiles**: Stores personal and academic details of students.
+  - **Chapters**: Contains the structure of study materials and topics.
+  - **Exercises**: Definitions and details of exercises tied to chapters.
+  - **Questions**: A pool of questions for tests, organized by difficulty or subject.
+  - **Test Results**: Stores individual test results and associated performance metrics.
+  - **Analytics**: Aggregated data about the student's overall performance across tests.
+  
+#### Data Flow:
+1. **Student Data Flow**:
+   - Students register and create their profiles.
+   - Their details are stored in a `students` collection.
+   - Students can attempt various exercises and tests, generating test results that are linked to their profile.
+   
+2. **Question/Exercise Data Flow**:
+   - Exercises are linked to specific chapters.
+   - Questions are pulled from the question bank to be used in test generation.
+   
+3. **Test Results & Analytics Data Flow**:
+   - Test results are created when a student completes a test, and stored in a `testResults` collection.
+   - Analytics data is generated based on the student's performance and stored in the `analytics` collection.
+
+#### Data Security:
+- Sensitive data (such as student details) will be encrypted using AES-256 encryption.
+- Authentication and authorization will be managed using JWT for secure access to APIs.
+
+---
+
+### 2. **MongoDB/NoSQL Schema Designs:**
+
+#### **1. Student Schema**:
+```js
+const mongoose = require('mongoose');
+
+const studentSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  age: { type: Number, required: true },
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+  testResults: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TestResult' }],
+  createdAt: { type: Date, default: Date.now },
+});
+
+module.exports = mongoose.model('Student', studentSchema);
+```
+
+#### **2. TestResult Schema**:
+```js
+const mongoose = require('mongoose');
+
+const testResultSchema = new mongoose.Schema({
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
+  score: { type: Number, required: true },
+  date: { type: Date, default: Date.now },
+  testId: { type: mongoose.Schema.Types.ObjectId, ref: 'Test', required: true }
+});
+
+module.exports = mongoose.model('TestResult', testResultSchema);
+```
+
+#### **3. Analytics Schema**:
+```js
+const mongoose = require('mongoose');
+
+const analyticsSchema = new mongoose.Schema({
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' },
+  performanceData: {
+    totalTests: { type: Number },
+    averageScore: { type: Number },
+  },
+}, { timestamps: true });
+
+module.exports = mongoose.model('Analytics', analyticsSchema);
+```
+
+#### **4. Chapter Schema**:
+```js
+const mongoose = require('mongoose');
+
+const chapterSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  exercises: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exercise' }]
+});
+
+module.exports = mongoose.model('Chapter', chapterSchema);
+```
+
+#### **5. Exercise Schema**:
+```js
+const mongoose = require('mongoose');
+
+const exerciseSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  chapter: { type: mongoose.Schema.Types.ObjectId, ref: 'Chapter' },
+  questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
+});
+
+module.exports = mongoose.model('Exercise', exerciseSchema);
+```
+
+#### **6. Question Schema**:
+```js
+const mongoose = require('mongoose');
+
+const questionSchema = new mongoose.Schema({
+  text: { type: String, required: true },
+  options: [{ type: String }],
+  correctAnswer: { type: String },
+  difficultyLevel: { type: String, enum: ['easy', 'medium', 'hard'] },
+});
+
+module.exports = mongoose.model('Question', questionSchema);
+```
+
+---
+
+### 3. **Data Flow Diagrams (DFD):**
+
+#### **Level 0 DFD (Context Diagram)**:
+                  +----------------+
+                  |     Students    |
+                  +-------+--------+
+                          |
+                          |
+                          v
+                  +----------------+
+                  |   Register User |
+                  +----------------+
+                          |
+                          |
+                          v
+                  +----------------+
+                  |       Admin     |
+                  +----------------+
+                          |
+                          |
+                          v
+                  +--------------------------+
+                  | Create and Attempt Tests |
+                  +--------------------------+
+                          |
+                          |
+                          v
+                  +----------------------------+
+                  | View Results and Analytics |
+                  +----------------------------+
+
+
+#### **Level 1 DFD (Detailed Diagram)**:
+                  +--------------------------+
+                  |      Student Management   |
+                  |--------------------------|
+                  | - Register Students       |
+                  | - Update Profiles         |
+                  | - Manage Test Results     |
+                  +-----------+--------------+
+                              |
+                              |
+                              v
+                    +------------------+
+                    |   Test Management |
+                    |-------------------|
+                    | - Create Tests    |
+                    | - Score Tests     |
+                    | - Evaluate Tests  |
+                    +-----------+------+
+                                |
+                                |
+                                v
+                    +-----------------------+
+                    |   Analytics Generation |
+                    |------------------------|
+                    | - Calculate Metrics    |
+                    | - Generate Reports     |
+                    +-----------------------+
+
+#### **Level 2 DFD (Data Store Interaction)**:
+                  +--------------------------+
+                  |      Student Management   |
+                  +--------------------------+
+                  | - Register Students       |
+                  | - Update Profiles         |
+                  | - Manage Test Results     |
+                  +-----------+--------------+
+                              |
+                              |
+                              v
+                  +---------------+        +------------+
+                  |   Students    |<-------|   Tests    |
+                  +---------------+        +------------+
+                  | - Student ID  |        | - Test ID  |
+                  | - Name        |        | - Test Info|
+                  | - Profile Data|        +------------+
+                  +---------------+
+                              |
+                              |
+                              v
+                    +------------------+
+                    |   Test Management |
+                    +------------------+
+                    | - Create Tests    |
+                    | - Score Tests     |
+                    | - Evaluate Tests   |
+                    +-----------+------+
+                                |
+                                |
+                                v
+                    +-------------------+
+                    |   TestResults      |
+                    +-------------------+
+                    | - Result ID       |
+                    | - Student ID      |
+                    | - Score           |
+                    +-------------------+
+                                |
+                                |
+                                v
+                    +-------------------------+
+                    |   Analytics Generation   |
+                    +-------------------------+
+                    | - Calculate Metrics      |
+                    | - Generate Reports       |
+                    +-----------+-------------+
+                                |
+                                |
+                                v
+                    +-----------------+
+                    |    Analytics     |
+                    +-----------------+
+                    | - Report ID      |
+                    | - Metrics Data   |
+                    +-----------------+
+
+### 4. **Performance Optimization Recommendations:**
+
+#### **Indexing**:
+- **Student Collection**: Index the `email` field for faster queries.
+  ```js
+  studentSchema.index({ email: 1 }, { unique: true });
+  ```
+- **TestResult Collection**: Index the `studentId` and `testId` fields to speed up retrieval of a student's results.
+  ```js
+  testResultSchema.index({ student: 1, testId: 1 });
+  ```
+- **Analytics Collection**: Index the `student` field for quick access to analytics data for a particular student.
+  ```js
+  analyticsSchema.index({ student: 1 });
+  ```
+
+#### **Data Caching**:
+- Use Redis or in-memory caching to store frequently accessed data, such as student profiles or test results, to reduce database load.
+
+#### **Database Sharding**:
+- If the application grows, implement sharding across multiple databases based on student IDs or test IDs to distribute data and improve scalability.
+
+#### **Query Optimization**:
+- Use `select` to fetch only the necessary fields to avoid over-fetching data:
+  ```js
+  TestResult.find({ student: req.params.studentId }).select('score date');
+  ```
+
+#### **Load Balancing**:
+- Utilize load balancing techniques for scaling the application when handling multiple requests simultaneously, ensuring high availability.
+
+---
+
 THANK YOU !!!
